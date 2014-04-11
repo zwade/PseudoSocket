@@ -3,7 +3,6 @@ PseudoSocket
 
 Abstracts a Websocket Connection through a relay server
 
-============
 
 **Set Up**
 ------------
@@ -11,7 +10,6 @@ Abstracts a Websocket Connection through a relay server
 Run `node index.js` on your webserver (heroku is a good choice)
 The server does not require any special libraries, just node built-ins
 
-============
 
 **Server**
 ------------
@@ -21,6 +19,9 @@ PSServer is used similarly to WebSockets. Here is an example connection
 
 ```javascript
 var pss = new PSServer("ws://localhost:5000")
+
+console.log("pss.UID = "+pss.UID);
+
 pss.onConnect = function(PSC) { //PseudoSocketConnection
 	console.log(PSC.UID+" connected!")
 
@@ -34,10 +35,32 @@ pss.onConnect = function(PSC) { //PseudoSocketConnection
 
 	PSC.onClose = function() {
 		console.log(PSC.UID+" disconnected!");
+		console.log("Remaining Clients ",pss.clients)
 	}
 
 }
 ```
 
+**Client**
+------------
 
+The client is also initialized similarly to a WebSocket
+
+```javascript
+var psc = new PSClient("ws://localhost:5000","tall-bird") //replace tall-bird with the UID of the server;
+
+psc.onConnect = function() {
+	console.log("Connected to "+psc.host)
+
+	psc.send("echo hi!")
+}
+
+psc.onData = function(data) {
+	console.log("Server sent me "+data)
+}
+```
+
+-----------
+
+More docs coming soon
 
