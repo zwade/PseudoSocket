@@ -10,6 +10,11 @@ PSServer = function(address) {
 	this.questions = {};
 	this.answers = {};
 	this.clients = {};
+	
+	this.onConnect = null;
+	this.onConnectionFailure = null;
+	this.onOpen = null;
+	this.onName = null;
 
 	this.ws = new WebSocket(this.address);
 	this.PSC = new PSCallback(this);
@@ -56,6 +61,9 @@ PSCallback.prototype.onopen = function(data) {
 	this.ps.hasConnected = true;
 	this.ps.register();
 	this.ps.startHeartbeat();
+	if (this.ps.onOpen) {
+		this.ps.onOpen();
+	}
 }
 PSCallback.prototype.onmessage = function(data) {
 	msg = data.data.split(" ");
@@ -69,6 +77,9 @@ PSCallback.prototype.onmessage = function(data) {
 	switch(cmd) {
 		case "uid":
 			this.ps.UID = data;
+			if (this.ps.onName) {
+				this.ps.onName(data);
+			}
 			break;
 		case "req":
 			if (Object.keys(this.ps.clients).length < 4) {

@@ -33,6 +33,11 @@ pss.onConnect = function(PSC) { //PseudoSocketConnection
 		}
 	}
 
+	//Note: this function will be called twice. Initially after connecting, and then after requesting a colloquial name
+	PSC.onName = function(UID) {
+		console.log("My Name is: "+UID); 
+	}
+
 	PSC.onClose = function() {
 		console.log(PSC.UID+" disconnected!");
 		console.log("Remaining Clients ",pss.clients)
