@@ -8,7 +8,7 @@ Abstracts a Websocket Connection through a relay server
 ------------
 
 Run `node index.js` on your webserver (heroku is a good choice)
-The server does not requires express.js to be installed.
+The server requires express.js to be installed.
 
 
 **Server**
