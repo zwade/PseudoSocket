@@ -23,7 +23,7 @@ PSClient = function(address,hostname) {
 }
 
 PSClient.prototype.genTag = function() {
-	return this.tag++;
+	return this.UID+""+this.tag++;
 }
 
 PSClient.prototype.startHeartbeat = function() {
@@ -55,6 +55,14 @@ PSClient.prototype.send = function(data) {
 	}
 }
 
+PSClient.prototype.ask = function(question,cb) {
+	var tag = this.genTag();
+	this.questions[tag] = cb;
+	if (this.state == 1) {
+		this.ws.send("ask "+tag+" "+this.host+" "+question); 
+	}
+}
+
 PSClient.prototype.register = function() {
 	this.ws.send("reg client");
 	this.connectToHost();
@@ -73,11 +81,17 @@ PSCallback.prototype.onmessage = function(data) {
 	msg = data.data.split(" ");
 	var cmd = msg[0];
 	var tag = msg[1];
+	var qdest = msg[2];
 	var data = ""
 	for (var i = 2; i < msg.length-1; i++) {
 		data+=msg[i]+" ";
 	}
 	data += msg[msg.length-1]
+	var qdata = ""
+	for (var i = 3; i < msg.length-1; i++) {
+		qdata+=msg[i]+" ";
+	}
+	qdata += msg[msg.length-1]
 	switch(cmd) {
 		case "uid":
 			this.ps.UID = data;
@@ -98,6 +112,20 @@ PSCallback.prototype.onmessage = function(data) {
 		case "frm":
 			if (tag == this.ps.host && this.ps.onData) {
 				this.ps.onData(data)
+			}
+			break
+		case "ans":
+			if (qdest == this.ps.host && this.ps.questions[tag]) {
+				this.ps.questions[tag](qdata);
+				delete this.ps.questions[tag];
+			}
+			break
+		case "ask":
+			if (this.ps.host == qdest && this.ps.onQuestion) {
+				var that = this;
+				this.ps.onQuestion(qdata, function(resp) { 
+					that.ps.ws.send("ans "+tag+" "+qdest+" "+resp);
+				})
 			}
 			break
 	}

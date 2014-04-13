@@ -28,7 +28,7 @@ PSServer = function(address) {
 }
 
 PSServer.prototype.genTag = function() {
-	return this.tag++;
+	return this.UID+""+this.tag++;
 }
 
 PSServer.prototype.startHeartbeat = function() {
@@ -69,11 +69,17 @@ PSCallback.prototype.onmessage = function(data) {
 	msg = data.data.split(" ");
 	var cmd = msg[0];
 	var tag = msg[1];
+	var qdest = msg[2];
 	var data = ""
 	for (var i = 2; i < msg.length-1; i++) {
 		data+=msg[i]+" ";
 	}
 	data += msg[msg.length-1]
+	var qdata = ""
+	for (var i = 3; i < msg.length-1; i++) {
+		qdata+=msg[i]+" ";
+	}
+	qdata += msg[msg.length-1]
 	switch(cmd) {
 		case "uid":
 			this.ps.UID = data;
@@ -106,6 +112,20 @@ PSCallback.prototype.onmessage = function(data) {
 				this.ps.clients[tag].onData(data);
 			}
 			break
+		case "ans":
+			if (this.ps.clients[qdest] && this.ps.clients[qdest].questions[tag]) {
+				this.ps.clients[qdest].questions[tag](qdata);
+				delete this.ps.clients[qdest].questions[tag];
+			}
+			break
+		case "ask":
+			if (this.ps.clients[qdest] && this.ps.clients[qdest].onQuestion) {
+				var that = this;
+				this.ps.clients[qdest].onQuestion(qdata, function(resp) { 
+					that.ps.ws.send("ans "+tag+" "+qdest+" "+resp);
+				})
+			}
+			break
 	}
 }
 PSCallback.prototype.onclose = function(data) {
@@ -131,10 +151,21 @@ PSCallback.prototype.onclose = function(data) {
 PSC = function(UID,pss) {
 	this.UID = UID;
 	this._ps = pss;
+	this.state = 1;
+
+	this.questions = {};
 }
 
 PSC.prototype.send = function(text) {
 	if (this.UID && this._ps && this._ps.clients[this.UID]) {
 		this._ps.ws.send("tel "+this.UID+" "+text)
+	}
+}
+
+PSC.prototype.ask = function(question,cb) {
+	var tag = this._ps.genTag();
+	this.questions[tag] = cb;
+	if (this.state == 1) {
+		this._ps.ws.send("ask "+tag+" "+this.UID+" "+question); 
 	}
 }
