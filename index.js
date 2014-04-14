@@ -68,12 +68,20 @@ var handleMessage = function(ws, data) {
 	var msg = data.split(" ");
 	var cmd = msg[0];
 	var tag = msg[1];
+	var qdest = msg[2];
 
 	var  dat = "";
 	for (i = 2; i < msg.length-1; i++) {
 		dat += msg[i]+" "
 	}
 	dat += msg[msg.length-1];
+
+	var  qdat = "";
+	for (i = 3; i < msg.length-1; i++) {
+		qdat += msg[i]+" "
+	}
+	qdat += msg[msg.length-1];
+
 	if (cmd != "hrt") {
 		console.log("Received: "+data+" from: "+ws.UID);
 	}
@@ -145,6 +153,16 @@ var handleMessage = function(ws, data) {
 				ws.send("inf log 101")
 			} else {
 				ws.send("inf err 201")
+			}
+			break
+		case "ask":
+			if (conns[qdest]) {
+				conns[qdest].send("ask "+tag+" "+ws.UID+" "+qdat);
+			}
+			break
+		case "ans":
+			if (conns[qdest]) {
+				conns[qdest].send("ans "+tag+" "+ws.UID+" "+qdat);
 			}
 			break
 		case "prt":
