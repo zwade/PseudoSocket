@@ -11,11 +11,11 @@ PSClient = function(address,hostname) {
 	this.questions = {};
 	this.answers = {};
 	
-	this.onConnect = null;
 	this.onConnectionFailure = null;
 	this.onOpen = null;
 	this.onName = null;
 	this.onQuestion = null;
+	this.onClose = null;
 
 	this.ws = new WebSocket(this.address);
 	this.PSC = new PSCallback(this);
