@@ -154,6 +154,10 @@ PSC = function(UID,pss) {
 	this.state = 1;
 
 	this.questions = {};
+
+	this.onQuestion = null;
+	this.onData = null;
+	this.onClose = null;
 }
 
 PSC.prototype.send = function(text) {

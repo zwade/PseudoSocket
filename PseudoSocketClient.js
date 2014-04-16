@@ -10,6 +10,12 @@ PSClient = function(address,hostname) {
 	this.state = 0;
 	this.questions = {};
 	this.answers = {};
+	
+	this.onConnect = null;
+	this.onConnectionFailure = null;
+	this.onOpen = null;
+	this.onName = null;
+	this.onQuestion = null;
 
 	this.ws = new WebSocket(this.address);
 	this.PSC = new PSCallback(this);
