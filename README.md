@@ -77,7 +77,30 @@ psc.onQuestion = function(query, callback) {
 }
 ```
 
+Methods, Callbacks and Fields
 -----------
 
-More docs coming soon
+## PseudoSocketServer
+Callback | Argument | Use
+---------|----------|----
+onConnect | PseudoSocketConnection PSC | Called when a PSClient connects to it the first time. Passed a PSC object for that client
 
+Field | Use
+------|----
+clients | Object of all connected clients. Key is UID, value is PSConnection
+
+## PseudoSocketConnection
+Callback | Argument | Use
+---------|----------|----
+onQuestion | String question , Function callback | Called when client asks a question. Callback should be called on the answer
+onData | String data | Called when client tells the host something. Data is sent as ASCII text
+onClose | -- | Called when the client disconnects
+
+Method | Argument | Use
+-------|----------|----
+send | String data | Sends raw text to client
+ask | String question , Function callback | Asks the client a question, with `callback` being called on the response
+
+Field | Use
+------|----
+UID | the unique UID of the client
