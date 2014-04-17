@@ -28,8 +28,14 @@ pss.onConnect = function(PSC) { //PseudoSocketConnection
 	PSC.onData = function(data) {
 		console.log(PSC.UID+" sent: "+data);
 		var msg = data.split(" ");
-		if (msg[0] == echo) {
+		if (msg[0] == "echo") {
 			PSC.send(msg[1]);
+			return
+		}
+		if (msg[0] == "verify") {
+			PSC.ask("are you sure?", function(data) {
+				console.log("Client is sure?: "+data);
+			})
 		}
 	}
 
@@ -62,6 +68,12 @@ psc.onConnect = function() {
 
 psc.onData = function(data) {
 	console.log("Server sent me "+data)
+}
+
+psc.onQuestion = function(query, callback) {
+	if (query == "are you sure?") {
+		callback("of course!");
+	}
 }
 ```
 
