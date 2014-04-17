@@ -84,6 +84,7 @@ Methods, Callbacks and Fields
 Callback | Argument | Use
 ---------|----------|----
 onConnect | PseudoSocketConnection PSC | Called when a PSClient connects to it the first time. Passed a PSC object for that client
+onName | String name | Called when the PSS is given a name (Called twice because it is first assigned a raw name, then a colloquial one)
 
 Field | Use
 ------|----
@@ -104,3 +105,24 @@ ask | String question , Function callback | Asks the client a question, with `ca
 Field | Use
 ------|----
 UID | the unique UID of the client
+
+## PseudoSocketClient
+Callback | Argument | Use
+---------|----------|----
+onConnectionFailure | -- | Called if either the Websocket can't connect, the desired host does not exist, or the host refused the connection
+onOpen | -- | Called when the connection to the host is successfully made
+onName | String name | Called when the PSC is given a name (UID)
+onQuestion | String question , Function callback | Called when host asks a question. Callback should be called on the answer
+onData | String data | Called when host tells the client something. Data is sent as ASCII text
+onClose | -- | Called when the host disconnects
+
+Method | Argument | Use
+-------|----------|----
+send | String data | Sends raw text to host
+ask | String question , Function callback | Asks the host a question, with `callback` being called on the response
+
+Field | Use
+------|----
+UID | the unique UID of the client
+host | the UID of the conencted host
+state | the state of connection. 0 => not connected, 1 => connected, 2 => connection failed, 3 => disconnected
