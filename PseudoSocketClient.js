@@ -16,6 +16,7 @@ PSClient = function(address,hostname) {
 	this.onName = null;
 	this.onQuestion = null;
 	this.onClose = null;
+	this.onData = null;
 
 	this.ws = new WebSocket(this.address);
 	this.PSC = new PSCallback(this);
@@ -139,6 +140,7 @@ PSCallback.prototype.onmessage = function(data) {
 PSCallback.prototype.onclose = function(data) {
 	this.ps.stopHeartbeat();
 	if (!this.ps.hasConnected) {
+		this.ps.state = 2;
 		if (this.ps.onConnectionFailure) {
 			this.ps.onConnectionFailure();
 		}
