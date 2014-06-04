@@ -86,8 +86,8 @@ Callback | Argument | Use
 ---------|----------|----
 onConnect | PseudoSocketConnection PSC | Called when a PSClient connects to it the first time. Passed a PSC object for that client
 onName | String name | Called when the PSS is given a name (Called twice because it is first assigned a raw name, then a colloquial one)
-onOpen | -- | Called when the PSS connects to the master server
-onConnectionFailure | Called if the Websocket can't connect to the master server
+onOpen |  | Called when the PSS connects to the master server
+onConnectionFailure |  | Called if the Websocket can't connect to the master server
 
 #### Fields
 Field | Use
@@ -100,7 +100,7 @@ Callback | Argument | Use
 ---------|----------|----
 onQuestion | String question , Function callback | Called when client asks a question. Callback should be called on the answer
 onData | String data | Called when client tells the host something. Data is sent as ASCII text
-onClose | -- | Called when the client disconnects
+onClose |  | Called when the client disconnects
 
 #### Methods
 Method | Argument | Use
@@ -117,12 +117,12 @@ UID | the unique UID of the client
 #### Callbacks
 Callback | Argument | Use
 ---------|----------|----
-onConnectionFailure | -- | Called if either the Websocket can't connect, the desired host does not exist, or the host refused the connection
-onOpen | -- | Called when the connection to the host is successfully made
+onConnectionFailure |  | Called if either the Websocket can't connect, the desired host does not exist, or the host refused the connection
+onOpen |  | Called when the connection to the host is successfully made
 onName | String name | Called when the PSC is given a name (UID)
 onQuestion | String question , Function callback | Called when host asks a question. Callback should be called on the answer
 onData | String data | Called when host tells the client something. Data is sent as ASCII text
-onClose | -- | Called when the host disconnects
+onClose | | Called when the host disconnects
 
 #### Methods
 Method | Argument | Use
