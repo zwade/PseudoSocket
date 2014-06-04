@@ -86,6 +86,8 @@ Callback | Argument | Use
 ---------|----------|----
 onConnect | PseudoSocketConnection PSC | Called when a PSClient connects to it the first time. Passed a PSC object for that client
 onName | String name | Called when the PSS is given a name (Called twice because it is first assigned a raw name, then a colloquial one)
+onOpen | -- | Called when the PSS connects to the master server
+onConnectionFailure | Called if the Websocket can't connect to the master server
 
 #### Fields
 Field | Use
