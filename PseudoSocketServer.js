@@ -101,10 +101,11 @@ PSCallback.prototype.onmessage = function(data) {
 			break
 		case "brk":
 			if (this.ps.clients[tag]) {
-				if (this.ps.clients[tag].onClose) {
-					this.ps.clients[tag].onClose();
+				var cache = this.ps.clients[tag];
+				delete this.ps.clients[tag];
+				if (cache.onClose) {
+					cache.onClose();
 				}
-				delete this.ps.clients[tag]
 			}
 			break
 		case "frm":
