@@ -53,11 +53,16 @@ wss.on('connection', function(ws) {
 		console.log('websocket connection close');
 		delete conns[ws.UID]
 		if (ws.host && hosts[ws.host]) {
-			hosts[ws.host].send("brk "+ws.UID);
+			hosts[ws.host].send("brk "+ws.UID+" "+ws.host);
 		}
 		if (ws.isHost===true) {
+			for (var i in hosts[ws.UID].clients) {
+				hosts[ws.UID].clients[i].send("brk "+ws.UID+" "+hosts[ws.UID].clients[i].UID);
+			}
 			delete hosts[ws.UID];
 		} else if (ws.isHost===false) {
+			var ind = hosts[ws.host].clients.indexOf(ws);
+			delete hosts[ws.host].clients[ind];
 			delete clients[ws.UID];
 		}
 	});
