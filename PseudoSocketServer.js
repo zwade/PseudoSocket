@@ -27,6 +27,12 @@ PSServer = function(address) {
 
 }
 
+PSServer.prototype.broadcast = function(data) {
+	for (i in this.clients) {
+		this.clients[i].send(data);
+	}
+}
+
 PSServer.prototype.genTag = function() {
 	return this.UID+""+this.tag++;
 }
