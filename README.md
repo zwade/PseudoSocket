@@ -89,6 +89,11 @@ onName | String name | Called when the PSS is given a name (Called twice because
 onOpen |  | Called when the PSS connects to the master server
 onConnectionFailure |  | Called if the Websocket can't connect to the master server
 
+#### Methods
+Method | Argument | Use
+-------|----------|-----
+broadcast | String message | Broadcasts `message` to all connected PSCs
+
 #### Fields
 Field | Use
 ------|----
