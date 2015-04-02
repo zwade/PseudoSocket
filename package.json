@@ -2,9 +2,9 @@
   "name": "PseudoSocketRelay",
   "version": "0.1.0",
   "description": "Abstracts a websocket connection through a server",
-  "main": "index.js",
+  "main": "heroku/index.js",
   "scripts": {
-    "test": "node index.js"
+    "test": "node heroku/index.js"
   },
   "repository": {
     "type": "git",
