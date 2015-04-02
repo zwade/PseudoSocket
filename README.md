@@ -8,6 +8,7 @@ Abstracts a Websocket Connection through a relay server
 ------------
 
 Run `npm install` to install all dependencies
+
 Run `node heroku/index.js` to start the webserver (directory set up for heroku)
 
 
