@@ -20,8 +20,6 @@ PSServer is used similarly to WebSockets. Here is an example connection
 ```javascript
 var pss = new PSServer("ws://localhost:5000")
 
-console.log("pss.UID = "+pss.UID);
-
 pss.onConnect = function(PSC) { //PseudoSocketConnection
 	console.log(PSC.UID+" connected!")
 
@@ -98,6 +96,7 @@ broadcast | String message | Broadcasts `message` to all connected PSCs
 Field | Use
 ------|----
 clients | Object of all connected clients. Key is UID, value is PSConnection
+limit | Total number of clients that may connect. Default is 4.
 
 ## PseudoSocketConnection
 #### Callbacks
