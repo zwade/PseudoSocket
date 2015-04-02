@@ -2,6 +2,8 @@
 PSServer = function(address) {
 	var that = this
 
+	this.limit = 4
+
 	this.UID = null;
 	this.hrt = null;
 	this.address = address || "ws://localhost:5000";
@@ -94,7 +96,7 @@ PSCallback.prototype.onmessage = function(data) {
 			}
 			break;
 		case "req":
-			if (Object.keys(this.ps.clients).length < 4) {
+			if (Object.keys(this.ps.clients).length < this.ps.limit) {
 				this.ps.clients[tag] = new PSC(tag,this.ps);
 				this.ps.ws.send("acc "+tag+" true");
 				if (this.ps.onConnect) {

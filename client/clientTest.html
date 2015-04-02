@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<script src="lib/PseudoSocketClient.js"></script>
+		<script>
+
+var PSC = null;
+
+var connect = function() {
+	var id = document.getElementById("id-input").value;
+	document.getElementById("id-input").value = "";
+	var psc = new PSClient("ws://websocketrelay.herokuapp.com", id);
+
+	psc.onConnectionFailure = function() {
+		alert("Connection Failed!");
+	}
+
+	psc.onOpen = function() {
+		PSC = psc;
+		psc.send("Connected!");
+		document.getElementById("send-data").style.display = "block";
+		document.getElementById("id-data").style.display = "none";
+	}
+
+	psc.onClose = function() {
+		PSC = null;
+		psc.send("Disconnecting!");
+		document.getElementById("send-data").style.display = "none";
+		document.getElementById("id-data").style.display = "block";
+	}
+}
+
+var send = function() {
+	if (!PSC) {
+		return false;
+	}
+	var data = document.getElementById("id-message").value;
+	document.getElementById("id-message").value = "";
+	PSC.send(data);
+}
+
+		</script>
+	</head>
+
+	<body>
+		<h1>Pseudo Socket Client</h1>
+		<div id = "id-data" style="display:block">
+			<input type="text" id="id-input" placeholder="Host ID"></input>
+			<input type="button" onclick="connect()" value="Connect to Host"></input>
+		</div>
+		<div id = "send-data" style="display:none">
+			<input type="text" id="id-message" placeholder="Message"></input>
+			<input type="button" onclick="send()" value="Send to Host"></input>
+		</div>
+	</body>
+</head>

@@ -1,0 +1,44 @@
+<html>
+	<head>
+		<script src="lib/PseudoSocketServer.js"></script>
+		<script>
+
+var connectedSockets = {}
+
+var pss = new PSServer("ws://websocketrelay.herokuapp.com");
+pss.onConnect = function(PSC) {
+	console.log(PSC)
+	connectedSockets[PSC.UID] = "";
+	updateList();
+
+	PSC.onData = function(data) {
+		connectedSockets[PSC.UID] = data; 
+		updateList();
+	}
+
+	PSC.onClose = function() {
+		delete connectedSockets[PSC.UID];
+		updateList();
+	}
+}
+
+pss.onName = function(name) {
+	document.getElementById("pss-name").innerHTML = name;
+}
+
+var updateList = function() {
+	var outstr = ""
+	for (psc in connectedSockets) {
+		outstr += "<div class='psc'>Client " + psc + " says " + connectedSockets[psc] + "</div>"
+	}
+	document.getElementById("psclients").innerHTML = outstr;
+}
+
+		</script>
+	</head>
+	<body>
+		<h1>Pseudo Socket Server: <span id="pss-name"></span></h1>
+		<h3>Connected Clients:</h3>
+		<div id="psclients"></div>
+	</body>
+</html>

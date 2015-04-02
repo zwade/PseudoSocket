@@ -135,6 +135,9 @@ PSCallback.prototype.onmessage = function(data) {
 				})
 			}
 			break
+		case "brk":
+			this.ps.ws.close();
+			this.ps.onClose();
 	}
 }
 PSCallback.prototype.onclose = function(data) {
