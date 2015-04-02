@@ -1,0 +1,33 @@
+exports.adj = [
+'red',
+'blue',
+'yellow',
+'orange',
+'green',
+'purple',
+'funny',
+'nice',
+'small',
+'big',
+'tall',
+'short',
+'round',
+'loud',
+'chubby',
+'cool',
+'pretty']
+
+exports.noun = [
+'dog',
+'cat',
+'bunny',
+'owl',
+'deer',
+'pig',
+'horse',
+'desk',
+'cabinet',
+'bed',
+'pillow',
+'bag',
+'mat']

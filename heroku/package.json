@@ -1,0 +1,23 @@
+{
+  "name": "PseudoSocketRelay",
+  "version": "0.1.0",
+  "description": "Abstracts a websocket connection through a server",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zwade/PseudoSocket.git"
+  },
+  "author": "zwade",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zwade/PseudoSocket/issues"
+  },
+  "homepage": "https://github.com/zwade/PseudoSocket",
+  "dependencies": {
+    "express": "^4.12.3",
+    "ws": "^0.7.1"
+  }
+}
