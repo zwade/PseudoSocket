@@ -1,0 +1,3 @@
+[submodule "heroku"]
+	path = /heroku
+	fetchRecurseSubmodules = true
